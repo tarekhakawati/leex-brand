@@ -146,6 +146,8 @@
   .hero-top, .hero-bottom { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   .hero-center { position: relative; z-index: 2; }
   .hero .wordmark { width: min(90vw, 760px); }
+  .hero-logo { overflow: visible; }
+  .hero-logo .pc { will-change: transform, opacity; }
   .hero-sweep {
     position: absolute; inset: 0; z-index: 3; pointer-events: none;
     background: linear-gradient(100deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%);
@@ -480,7 +482,20 @@
     </div>
 
     <div class="wrap hero-center">
-      <svg class="wordmark" viewBox="0 0 694 202" role="img" aria-label="LEEX"><use href="#leexWord"/></svg>
+      <svg class="wordmark hero-logo" viewBox="0 0 694 202" role="img" aria-label="LEEX">
+        <g transform="translate(-50,-154)">
+          <g class="pc" fill="currentColor"><polygon points="375.4 198.6 381.4 160.6 263.7 160.6 257.7 198.6"/></g>
+          <g class="pc" fill="currentColor"><polygon points="536.2 198.6 542.2 160.7 424.5 160.6 418.5 198.6"/></g>
+          <g class="pc" fill="currentColor"><polygon points="340.6 274.5 346.6 236.5 251.7 236.5 245.7 274.5"/></g>
+          <g class="pc" fill="currentColor"><polygon points="501.4 274.5 507.4 236.5 412.5 236.5 406.5 274.5"/></g>
+          <g class="pc" fill="currentColor"><polygon points="351.3 350.3 357.3 312.4 239.7 312.4 233.6 350.3"/></g>
+          <g class="pc" fill="currentColor"><polygon points="512.2 350.3 518.1 312.4 400.5 312.4 394.5 350.3"/></g>
+          <g class="pc" fill="currentColor"><polygon points="95.2 304.8 57.2 304.8 80.1 160.6 118 160.7"/></g>
+          <g class="pc" fill="currentColor"><polygon points="190.5 350.3 107 350.3 113 312.4 196.5 312.4"/></g>
+          <g class="pc" fill="url(#leexXgrad)"><polygon points="603.8 350.3 555.2 350.3 621.1 250.7 559.3 160.8 609.8 160.8 646.3 217.2 683.4 160.7 731.2 160.7 603.8 350.3"/></g>
+          <g class="pc" fill="url(#leexXgrad2)"><polygon points="681.4 268.1 738.7 350.1 688.2 350.2 655.7 302.1 681.4 268.1"/></g>
+        </g>
+      </svg>
       <p class="hero-tag">The art of <span class="accent-text">experience.</span></p>
     </div>
 
@@ -1046,6 +1061,51 @@
       }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
       secs.forEach(function(s){ obs.observe(s); });
     }
+  })();
+  </script>
+
+  <script>
+  /* hero logo assembly: scattered blocks converge into LEEX as you scroll */
+  (function(){
+    var logo = document.querySelector('.hero-logo');
+    if (!logo) return;
+    var pcs = [].slice.call(logo.querySelectorAll('.pc'));
+    var cfg = [
+      {cx:319.5,cy:179.6,ox:-150,oy:-120,rot:-30,sc:0.70},
+      {cx:480.3,cy:179.6,ox:175,oy:-145,rot:35,sc:0.75},
+      {cx:296.1,cy:255.5,ox:-225,oy:-30,rot:-20,sc:1.20},
+      {cx:456.9,cy:255.5,ox:205,oy:25,rot:25,sc:0.60},
+      {cx:295.4,cy:331.3,ox:-165,oy:155,rot:28,sc:0.85},
+      {cx:456.3,cy:331.3,ox:165,oy:165,rot:-28,sc:1.15},
+      {cx:87.6,cy:232.7,ox:-265,oy:-55,rot:-42,sc:0.70},
+      {cx:151.7,cy:331.3,ox:-205,oy:175,rot:34,sc:0.62},
+      {cx:643.2,cy:255.5,ox:270,oy:-35,rot:38,sc:0.70},
+      {cx:697.2,cy:309.1,ox:300,oy:135,rot:-36,sc:1.28}
+    ];
+    function ease(t){ return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2; }
+    function apply(p){
+      var k = 1 - p;
+      for (var i = 0; i < pcs.length && i < cfg.length; i++){
+        var c = cfg[i];
+        var tx = (c.ox*k).toFixed(2), ty = (c.oy*k).toFixed(2);
+        var rot = (c.rot*k).toFixed(2), sc = (1 + (c.sc-1)*k).toFixed(3);
+        pcs[i].setAttribute('transform',
+          'translate('+tx+' '+ty+') rotate('+rot+' '+c.cx+' '+c.cy+') translate('+c.cx+' '+c.cy+') scale('+sc+') translate('+(-c.cx)+' '+(-c.cy)+')');
+        pcs[i].style.opacity = (0.4 + 0.6*p).toFixed(3);
+      }
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ apply(1); return; }
+    var ticking = false;
+    function update(){
+      var vh = window.innerHeight || 800;
+      var raw = window.scrollY / (vh * 0.85);
+      apply(ease(Math.min(1, Math.max(0, raw))));
+      ticking = false;
+    }
+    function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+    apply(0);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
   })();
   </script>
 
