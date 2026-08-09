@@ -134,11 +134,12 @@
   .sec-lede { color: var(--muted); max-width: 60ch; font-size: clamp(15px,1.5vw,17px); margin-top: 14px; }
 
   /* ============ HERO ============ */
-  .hero { background: var(--onyx); color: #fff; position: relative; overflow: hidden;
-          min-height: 92vh; display: flex; flex-direction: column; justify-content: space-between;
-          padding-block: clamp(28px, 5vw, 56px); }
-  .hero::before {
-    content: ""; position: absolute; inset: -20% -10% auto -10%; height: 120%;
+  .hero { position: relative; height: 140vh; background: var(--onyx); }
+  .hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; color: #fff;
+          display: flex; flex-direction: column; justify-content: space-between;
+          padding: clamp(60px, 9vh, 92px) 0 clamp(28px, 5vw, 56px); }
+  .hero-stage::before {
+    content: ""; position: absolute; inset: -10% -10% auto -10%; height: 120%;
     background: radial-gradient(60% 55% at 78% 8%, rgba(110,68,255,.32), transparent 60%),
                 radial-gradient(55% 45% at 12% 95%, rgba(238,38,99,.22), transparent 62%);
     pointer-events: none;
@@ -476,6 +477,7 @@
 
   <!-- ================= HERO ================= -->
   <section class="hero" id="top">
+    <div class="hero-stage">
     <div class="wrap hero-top">
       <p class="eyebrow">Brand Identity System</p>
       <p class="eyebrow">Riyadh, KSA / v1.0 / 2026</p>
@@ -504,6 +506,7 @@
       <p class="hero-scroll">Scroll &darr;</p>
     </div>
     <div class="hero-sweep" aria-hidden="true"></div>
+    </div>
   </section>
 
   <!-- ================= INTRO / POSITIONING ================= -->
@@ -1095,10 +1098,12 @@
       }
     }
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ apply(1); return; }
+    var hero = document.querySelector('.hero');
     var ticking = false;
     function update(){
       var vh = window.innerHeight || 800;
-      var raw = window.scrollY / (vh * 0.85);
+      var track = (hero ? hero.offsetHeight : vh) - vh;   /* the pinned scroll distance */
+      var raw = track > 0 ? window.scrollY / track : 1;
       apply(ease(Math.min(1, Math.max(0, raw))));
       ticking = false;
     }
