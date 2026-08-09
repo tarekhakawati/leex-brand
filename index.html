@@ -146,9 +146,15 @@
   }
   .hero-top, .hero-bottom { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   .hero-center { position: relative; z-index: 2; }
-  .hero .wordmark { width: min(90vw, 760px); }
+  .hero .wordmark { width: min(78vw, 560px); }
   .hero-logo { overflow: visible; }
   .hero-logo .pc { will-change: transform, opacity; }
+  .hero-stack { display: grid; place-items: center; width: 100%; }
+  .hero-stack > * { grid-area: 1 / 1; }
+  .hero-intro { text-align: center; font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(30px, 6.5vw, 72px); letter-spacing: -.03em; line-height: 1.03; color: #fff;
+    z-index: 3; will-change: opacity, transform; }
+  .hero-intro .accent-text { background: var(--spectrum); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .hero-sweep {
     position: absolute; inset: 0; z-index: 3; pointer-events: none;
     background: linear-gradient(100deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%);
@@ -484,6 +490,7 @@
     </div>
 
     <div class="wrap hero-center">
+      <div class="hero-stack">
       <svg class="wordmark hero-logo" viewBox="0 0 694 202" role="img" aria-label="LEEX">
         <g transform="translate(-50,-154)">
           <g class="pc" fill="currentColor"><polygon points="375.4 198.6 381.4 160.6 263.7 160.6 257.7 198.6"/></g>
@@ -498,7 +505,8 @@
           <g class="pc" fill="url(#leexXgrad2)"><polygon points="681.4 268.1 738.7 350.1 688.2 350.2 655.7 302.1 681.4 268.1"/></g>
         </g>
       </svg>
-      <p class="hero-tag">The art of <span class="accent-text">experience.</span></p>
+        <div class="hero-intro">The art of <span class="accent-text">experience.</span></div>
+      </div>
     </div>
 
     <div class="wrap hero-bottom">
@@ -1094,21 +1102,29 @@
         var rot = (c.rot*k).toFixed(2), sc = (1 + (c.sc-1)*k).toFixed(3);
         pcs[i].setAttribute('transform',
           'translate('+tx+' '+ty+') rotate('+rot+' '+c.cx+' '+c.cy+') translate('+c.cx+' '+c.cy+') scale('+sc+') translate('+(-c.cx)+' '+(-c.cy)+')');
-        pcs[i].style.opacity = (0.4 + 0.6*p).toFixed(3);
+        pcs[i].style.opacity = (0.12 + 0.88*p).toFixed(3);
       }
     }
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ apply(1); return; }
+    var intro = document.querySelector('.hero-intro');
+    function clamp(v){ return Math.min(1, Math.max(0, v)); }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ apply(1); if (intro) intro.style.opacity = 0; return; }
     var hero = document.querySelector('.hero');
     var ticking = false;
     function update(){
       var vh = window.innerHeight || 800;
       var track = (hero ? hero.offsetHeight : vh) - vh;   /* the pinned scroll distance */
-      var raw = track > 0 ? window.scrollY / track : 1;
-      apply(ease(Math.min(1, Math.max(0, raw))));
+      var raw = track > 0 ? clamp(window.scrollY / track) : 1;
+      apply(ease(clamp(raw / 0.75)));                      /* logo fully formed by 75% of the pin, then holds */
+      if (intro){
+        var io = clamp(1 - raw / 0.4);                     /* "The art of experience" fades over the first 40% */
+        intro.style.opacity = io.toFixed(3);
+        intro.style.transform = 'translateY(' + (-18 * (1 - io)).toFixed(1) + 'px)';
+        intro.style.pointerEvents = io < 0.05 ? 'none' : '';
+      }
       ticking = false;
     }
     function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
-    apply(0);
+    update();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
   })();
