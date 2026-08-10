@@ -55,6 +55,17 @@
   .em-star{ font-size:15px; fill:currentColor; }
   .em-est{ font-family:var(--mono); font-size:7px; letter-spacing:.18em; fill:currentColor; }
 
+  .icon{ display:block; }
+  .icon .ic-disc{ color:var(--blue); }
+  .icon .ic-cut{ color:#F1F2F4; }
+  .icon.rev .ic-disc{ color:#fff; }
+  .icon.rev .ic-cut{ color:var(--blue); }
+  .icon.paperdisc .ic-disc{ color:#F1F2F4; }
+  .icon.paperdisc .ic-cut{ color:var(--blue); }
+  .lockup{ display:flex; align-items:center; gap:clamp(16px,3vw,34px); flex-wrap:wrap; justify-content:center; }
+  .lockup .lk-icon{ width:min(30vw,150px); }
+  .lockup .lk-wm{ font-family:var(--sans); font-weight:900; font-size:clamp(56px,11vw,120px); letter-spacing:-.05em; }
+  .lockup .lk-wm .x{ color:var(--blue); }
   /* ===== WORDMARK ===== */
   .wm{ font-family:var(--sans); font-weight:900; letter-spacing:-.045em; line-height:.82; }
   .wm .x{ color:var(--blue); }
@@ -187,11 +198,11 @@
 
   /* sticker sheet */
   .stickers{ background:var(--ink); padding:30px; display:flex; gap:22px; flex-wrap:wrap; align-items:center; justify-content:center; min-height:200px; }
-  .sticker{ width:120px; height:120px; border-radius:50%; display:grid; place-items:center; }
-  .sticker .emblem{ width:104px; height:104px; }
-  .sticker.blue{ background:var(--blue); color:#fff; }
-  .sticker.paper{ background:var(--paper); color:var(--ink); }
-  .sticker.white{ background:#fff; color:var(--blue); }
+  .sticker{ width:130px; height:130px; display:grid; place-items:center; }
+  .sticker .icon{ width:130px; height:130px; }
+  .sticker.blue{}
+  .sticker.paper{}
+  .sticker.white{}
 
   /* social tiles */
   .soc{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
@@ -244,17 +255,19 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <path id="emRing" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" fill="none"/>
-    <symbol id="emRingSym" viewBox="0 0 200 200">
+    <symbol id="emRingSym" viewBox="0 0 100 100">
       <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="1.4"/>
       <text class="em-ring"><textPath href="#emRing" startOffset="0" textLength="500" lengthAdjust="spacing">LUXURY ENTERTAINMENT &#10022; EVENTS XPERIENCE &#10022; RIYADH &#10022; </textPath></text>
     </symbol>
-    <symbol id="emCoreSym" viewBox="0 0 200 200">
+    <symbol id="emCoreSym" viewBox="0 0 100 100">
       <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" stroke-width="1.4"/>
       <text class="em-star" x="100" y="84" text-anchor="middle">&#10022;</text>
       <text class="em-center" x="100" y="107" text-anchor="middle">LEEX</text>
       <text class="em-est" x="100" y="122" text-anchor="middle">EST &#183; MMXXVI</text>
     </symbol>
-  </defs>
+      <symbol id="iconDisc" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="currentColor"/></symbol>
+    <symbol id="iconCut" viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="21" stroke-linecap="round" d="M53,27 C48,43 48,58 45,72"/><circle cx="64" cy="70.5" r="9.5" fill="currentColor"/></symbol>
+</defs>
 </svg>
 
 <div class="page">
@@ -280,8 +293,8 @@
       </div>
       <div class="hero-main">
         <div class="hero-wm">LEE<span class="x">X</span></div>
-        <svg class="emblem spin hero-emblem" viewBox="0 0 200 200" role="img" aria-label="LEEX emblem">
-          <use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/>
+        <svg class="emblem icon spin hero-emblem" viewBox="0 0 100 100" role="img" aria-label="LEEX emblem">
+          <use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/>
         </svg>
       </div>
       <div class="hero-sub">
@@ -303,25 +316,26 @@
       <div class="sec-head">
         <div class="sec-num">01</div>
         <div>
-          <h2 class="sec-title">The emblem</h2>
-          <p class="sec-lede">A rotating seal is the heart of the mark: LEEX at the centre, the full name orbiting the ring. It works as a stamp, a sticker, a spinning loader, a coin. The bold wordmark carries the name where the seal cannot.</p>
+          <h2 class="sec-title">The mark</h2>
+          <p class="sec-lede">A soft disc with a flowing negative-space drop, LEEX distilled to a single confident icon. It sits beside the wordmark, stands alone as an avatar or app icon, and travels as a sticker. Smooth, not rigid.</p>
         </div>
       </div>
 
       <div class="em-primary">
-        <svg class="emblem spin" viewBox="0 0 200 200" role="img" aria-label="LEEX emblem">
-          <use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/>
-        </svg>
+        <div class="lockup">
+          <svg class="icon lk-icon" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg>
+          <div class="lk-wm">LEE<span class="x">X</span></div>
+        </div>
       </div>
 
       <div class="em-grid">
         <div class="emcard">
-          <div class="st paper"><svg class="emblem" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
-          <div class="lab">Emblem / ink</div>
+          <div class="st paper"><svg class="emblem icon" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
+          <div class="lab">Icon / primary</div>
         </div>
         <div class="emcard">
-          <div class="st blue"><svg class="emblem" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
-          <div class="lab">Emblem / reversed</div>
+          <div class="st blue"><svg class="emblem icon rev" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
+          <div class="lab">Icon / reversed</div>
         </div>
         <div class="emcard">
           <div class="st paper"><div class="wmbox">LEE<span class="x">X</span></div></div>
@@ -410,7 +424,7 @@
       <div class="apps">
         <div class="c3">
           <div class="poster">
-            <div class="ptop"><span>LEEX Presents</span><svg class="emblem spin" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
+            <div class="ptop"><span>LEEX Presents</span><svg class="emblem icon rev spin" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
             <div class="pw">MID<br>NIGHT<span class="x">.</span></div>
             <div class="pd">14 Nov 2026 &#183; Riyadh &#183; Doors 21:00</div>
           </div>
@@ -420,11 +434,11 @@
         <div class="c3">
           <div class="cardset">
             <div class="bc">
-              <div class="top"><div class="wm2">LEE<span class="x">X</span></div><svg class="emblem" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
+              <div class="top"><div class="wm2">LEE<span class="x">X</span></div><svg class="emblem icon" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
               <div class="lines">Luxury Entertainment &amp; Events Xperience</div>
             </div>
             <div class="bc blue">
-              <div class="top"><div><div class="nm">Layla Al-Rashid</div><div class="rl">Head of Experience</div></div><svg class="emblem" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
+              <div class="top"><div><div class="nm">Layla Al-Rashid</div><div class="rl">Head of Experience</div></div><svg class="emblem icon rev" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
               <div class="lines">layla@leex.sa &#183; +966 5X XXX XXXX</div>
             </div>
           </div>
@@ -433,9 +447,9 @@
 
         <div class="c6">
           <div class="stickers">
-            <div class="sticker blue"><svg class="emblem spin" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
-            <div class="sticker paper"><svg class="emblem spin" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
-            <div class="sticker white"><svg class="emblem spin" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
+            <div class="sticker"><svg class="emblem icon spin" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
+            <div class="sticker"><svg class="emblem icon rev spin" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
+            <div class="sticker"><svg class="emblem icon paperdisc spin" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
             <div class="sticker paper"><div class="xmono" style="font-size:52px">X</div></div>
           </div>
           <p class="cap">Sticker &amp; stamp sheet</p>
@@ -444,7 +458,7 @@
         <div class="c3">
           <div class="soc">
             <div class="stile ink"><div class="lab" style="color:rgba(255,255,255,.6)">Now booking</div><div class="big">LEE<span class="x">X</span></div></div>
-            <div class="stile blue"><svg class="emblem" viewBox="0 0 200 200" style="color:#fff"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg><div class="lab">Q4 &#183; 2026</div></div>
+            <div class="stile blue"><svg class="emblem icon rev" viewBox="0 0 100 100" style="color:#fff"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg><div class="lab">Q4 &#183; 2026</div></div>
             <div class="stile paper"><div class="lab" style="color:var(--mut)">Tagline</div><div class="arb">&#1601;&#1606; &#1575;&#1604;&#1578;&#1580;&#1585;&#1576;&#1577;</div></div>
           </div>
           <p class="cap">Social tiles</p>
@@ -456,7 +470,7 @@
               <div class="row"><div class="wm3">LEE<span class="x">X</span></div><span class="pill">VIP</span></div>
               <div class="data"><div>Date<b>14.11.26</b></div><div>Doors<b>21:00</b></div><div>Sec<b>A / 07</b></div></div>
             </div>
-            <div class="stub"><svg class="emblem spin" viewBox="0 0 200 200"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg></div>
+            <div class="stub"><svg class="emblem icon rev spin" viewBox="0 0 100 100"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg></div>
           </div>
           <p class="cap">VIP ticket</p>
         </div>
@@ -485,7 +499,7 @@
   <!-- ================= FOOTER ================= -->
   <footer class="foot">
     <div class="wrap">
-      <svg class="emblem spin" viewBox="0 0 200 200" role="img" aria-label="LEEX emblem"><use class="rotor" href="#emRingSym"/><use href="#emCoreSym"/></svg>
+      <svg class="emblem icon rev spin" viewBox="0 0 100 100" role="img" aria-label="LEEX emblem"><use class="ic-disc" href="#iconDisc"/><use class="ic-cut" href="#iconCut"/></svg>
       <div class="fwm">LEE<span class="x">X</span></div>
       <div class="meta">
         <span>Brand Identity / Option Three</span>
